@@ -24,14 +24,15 @@ public class FinalProjesiEmlakci {
         } while (true);
         // Yeni Ev Ekleme
         while (true){
+            int select = selectionNo();
 
-            if (selectionNo() == 1) {
+            if (select == 1) {
                 addHome();
-            } else if (selectionNo() == 2) {
+            } else if (select == 2) {
                 searchHome();
 
 
-            } else if (selectionNo() == 3) {
+            } else if (select == 3) {
 
             } else {
                 System.out.println("Lütfen doğru bir operasyon seçiniz!");
@@ -103,8 +104,9 @@ public class FinalProjesiEmlakci {
         System.out.println("Ev sorgulamak için hangisine sorgulacaksin:");
         System.out.println("İl seçiniz:");
         List<String> city = new ArrayList<>();
-        boolean found = false;
+
         for (EvBilgileri evfound : homeDetailes){
+            boolean found = false;
             String cityName = evfound.homeCity;
             if (city.size()!=0){
              for (String cityName1 : city){
@@ -115,7 +117,9 @@ public class FinalProjesiEmlakci {
              }
 
            } else{
+                found = true;
                 city.add(evfound.homeCity);
+
             }
           if(!found)
                 city.add(evfound.homeCity);
@@ -123,7 +127,8 @@ public class FinalProjesiEmlakci {
 
 //            System.out.println("Ev numarası: "+evfound.homeNo+"\n"+"Il: "+evfound.homeCity+" Ilçe: "+evfound.homeDistrict+
 //                    " Kat Numarası: "+evfound.homeFloor+" Ev Toplam Alanı:" + evfound.homeSquare+" ");
-        }for (String cityName1 : city){
+        }//kaç il isimleri yazıyor seçmek için
+        for (String cityName1 : city){
             System.out.println(cityName1+"\n");
         }
 
