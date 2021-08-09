@@ -6,6 +6,10 @@ public class EvBilgileri {
     int homeRooms,homeFloor,homeOld;
     int homeStatus;
 
+    public EvBilgileri() {
+
+    }
+
     public EvBilgileri(int homeNo, String homeCity, String homeDistrict, String homeAdress, float homeSquare, float homePrice, int homeRooms, int homeFloor, int homeOld, int homeStatus) {
         this.homeNo = homeNo;
         this.homeCity = homeCity;

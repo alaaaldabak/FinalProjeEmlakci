@@ -4,7 +4,10 @@ import java.util.Scanner;
 
 public class FinalProjesiEmlakci {
      static String userName="Alaa",password="123";
-    static List<EvBilgileri> homeDetailes = new ArrayList<>() ;
+     static List<EvBilgileri> homeDetailes = new ArrayList<>() ;
+     static List<EvBilgileri> selectHomeList = new ArrayList<>() ;
+     static List<ClientHomeList> clientHome = new ArrayList<>();
+     static EvBilgileri home = new EvBilgileri();
 
     public static void main(String[] args) {
 
@@ -130,7 +133,105 @@ public class FinalProjesiEmlakci {
         }//kaç il isimleri yazıyor seçmek için
         for (String cityName1 : city){
             System.out.println(cityName1+"\n");
+
+        }
+        //il seçmekten sonra bir ilçe seçmesi gerekıyorsa
+        System.out.println("Lütfen bir İl seçeniz:");
+        Scanner selectCity = new Scanner(System.in);
+        String selectCity1 = selectCity.nextLine();
+
+        for (EvBilgileri cityList : homeDetailes ){
+            if(selectCity1.equals(cityList.homeCity)){
+                System.out.println("Ev numarası: "+cityList.homeNo+"\n"+"Il: "+cityList.homeCity+"-- Ilçe: "+cityList.homeDistrict+
+                   "-- Kat Numarası: "+cityList.homeFloor+"-- Ev Adressi: "+cityList.homeAdress +"-- Ev Toplam Alanı:" + cityList.homeSquare+"-- Ev yaşı: "+cityList.homeOld +"-- Ev odası: "+cityList.homeRooms );
+                if (cityList.homeStatus == 0)
+                    System.out.println("-- Ev Durumu : Kira\n");
+                else
+                    System.out.println("-- Ev Durumu : Satılık\n");
+                addSelectHome(cityList);
+            }
+        }
+        System.out.println("Lütfen bir ev seçip numarınızını yazınız!");
+        try {
+            selectCity1 = selectCity.next();
+            boolean foundNo = false;
+            if (Integer.class.isInstance(Integer.parseInt(selectCity1))) {
+            for(EvBilgileri homeFound : selectHomeList){
+                if( selectCity1.equals(homeFound.homeNo) ){
+                    int homeIndex = selectHomeList.indexOf(selectCity1);
+                  //  ClientHomeList clientHome = new ClientHomeList();
+                  //  clientHome.add(new  EvBilgileri());
+                     home = new EvBilgileri(homeFound.homeNo, homeFound.homeCity, homeFound.homeDistrict, homeFound.homeAdress, homeFound.homeSquare, homeFound.homePrice, homeFound.homeRooms, homeFound.homeFloor, homeFound.homeOld, homeFound.homeStatus);
+                    System.out.println("index "+homeIndex);
+                    foundNo = true;
+                    break;
+                }
+            }
+            if(foundNo){
+                while (true) {
+                    System.out.println("Bu ev almak veya tutmak için Lütfen gerek bilgilerinizi giriniz:\nTc Kimlik No: ");
+                    String clientNo = selectCity.next();
+                    if (Integer.class.isInstance(Integer.parseInt(clientNo))) {
+                        System.out.println("Ad Soyadı: ");
+                        String clientNameSurname = selectCity.nextLine();
+                        while(true) {
+                            System.out.println("Telefon numarası: ");
+                            String clientTelefon = selectCity.next();
+                            if (Integer.class.isInstance(Integer.parseInt(clientTelefon))) {
+                                System.out.println("Mail Adressi: ");
+                                String clientMail = selectCity.nextLine();
+                                System.out.println("Ev/iş Adressi: ");
+                                String clientAdress = selectCity.nextLine();
+                                System.out.println("Onu kaydetmek için kabul ediyor musunuz?Evet yada Hayır");
+                                String clientSure = selectCity.next();
+                                if ( !clientSure.equals("evet")|| !clientSure.equals("Evet")|| !clientSure.equals("hayır")|| !clientSure.equals("Hayır")){
+                                    System.out.println("Lütfen Evet yada Hayır giriniz!");
+                                }else{
+                                    if(clientSure.equals("evet")|| clientSure.equals("Evet")){
+                                        Clientİnformation client = new Clientİnformation(Integer.parseInt(clientNo),  clientNameSurname,  clientMail,  clientAdress,
+                                               Integer.parseInt( clientTelefon));
+//                                        clientHome.add(new ClientHomeList(new EvBilgileri( home.homeNo, home.homeCity,home.homeDistrict, home.homeAdress, home.homeSquare,
+//                                                home.homePrice, home.homeRooms, home.homeFloor, home.homeOld, home.homeStatus)),
+//                                                new Clientİnformation(Integer.parseInt(clientNo),clientNameSurname,clientMail,clientAdress,Integer.parseInt( clientTelefon)));
+                                            clientHome.add(new ClientHomeList(Integer.parseInt(clientNo),  clientNameSurname,  clientMail, clientAdress, Integer.parseInt( clientTelefon),
+                                                    home.getHomeNo(), home.homeCity, home.homeDistrict, home.homeAdress, home.homeSquare, home.homePrice, home.homeRooms,
+                                                    home.homeFloor, home.homeOld, home.homeStatus) );
+
+                                    }else{
+                                        System.out.println("İşlemlerinizi tamamlayamadı. ");
+                                    }
+
+                                }
+                                break;
+
+                            }else{
+                                System.out.println("Lütfen doğru Telefon numarası giriniz!");
+                            }
+
+                        }
+                        break;
+
+                    } else {
+                        System.out.println("Lütfen doğru Tc giriniz!");
+                    }
+
+                }
+            }else{
+                System.out.println("Girdiğinz sayı doğru değildir.Lütfen listedekilerden birni seçiniz!");
+
+            }
+            }
+        }catch (Exception e) {
+            System.out.println("Girdiğinz sayı doğru değildir.Lütfen listedekilerden birni seçiniz!");
         }
 
+
+
+
+    }public static void addSelectHome(EvBilgileri homeList){
+        selectHomeList.add( new EvBilgileri(homeList.homeNo,homeList.homeCity,homeList.homeDistrict,homeList.homeAdress,homeList.homeSquare,homeList.homePrice,homeList.homeRooms,
+                homeList.homeFloor,homeList.homeOld, homeList.homeStatus));
+
     }
+
 }
