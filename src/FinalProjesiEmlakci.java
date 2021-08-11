@@ -35,8 +35,6 @@ public class FinalProjesiEmlakci {
                 searchHome();
 
 
-            } else if (select == 3) {
-
             } else {
                 System.out.println("Lütfen doğru bir operasyon seçiniz!");
             }
@@ -57,15 +55,15 @@ public class FinalProjesiEmlakci {
         boolean isNumberWrong = true;
         String inputCheck = "";
         while (isNumberWrong) {
-            System.out.println("Lütfen birini seçiniz:\n 1. Ev Ekleme \n 2. Ev Sorgulama \n 3. Ev Satılan veya Kiralananlar\n ");
+            System.out.println("Lütfen birini seçiniz:\n 1. Ev Ekleme \n 2. Ev Sorgulama \n  ");
             try {
                 inputCheck = select.next();
                 if (Integer.class.isInstance(Integer.parseInt(inputCheck))) {
 
-                    if (inputCheck.equals("1") || inputCheck.equals("2") || inputCheck.equals("3")) {
+                    if (inputCheck.equals("1") || inputCheck.equals("2") ) {
                         isNumberWrong = false;
                     } else {
-                        System.out.println("Lütfen 1 yada 2 yada 3 seçiniz!");
+                        System.out.println("Lütfen 1 yada 2  seçiniz!");
                     }
                 }
             } catch (Exception e) {
@@ -153,16 +151,18 @@ public class FinalProjesiEmlakci {
         }
         System.out.println("Lütfen bir ev seçip numarınızını yazınız!");
         try {
-            selectCity1 = selectCity.next();
+
+           int selectCityNo = selectCity.nextInt();
             boolean foundNo = false;
-            if (Integer.class.isInstance(Integer.parseInt(selectCity1))) {
+          //  if  (Integer.class.isInstance(Integer.parseInt(selectCityNo))) {
             for(EvBilgileri homeFound : selectHomeList){
-                if( selectCity1.equals(homeFound.homeNo) ){
-                    int homeIndex = selectHomeList.indexOf(selectCity1);
+                System.out.println(homeFound.homeNo);
+                if( selectCityNo == homeFound.homeNo) {
+                    int homeIndex = selectHomeList.indexOf(selectCityNo);
                   //  ClientHomeList clientHome = new ClientHomeList();
                   //  clientHome.add(new  EvBilgileri());
                      home = new EvBilgileri(homeFound.homeNo, homeFound.homeCity, homeFound.homeDistrict, homeFound.homeAdress, homeFound.homeSquare, homeFound.homePrice, homeFound.homeRooms, homeFound.homeFloor, homeFound.homeOld, homeFound.homeStatus);
-                    System.out.println("index "+homeIndex);
+                  //  System.out.println("index "+homeIndex);
                     foundNo = true;
                     break;
                 }
@@ -170,43 +170,49 @@ public class FinalProjesiEmlakci {
             if(foundNo){
                 while (true) {
                     System.out.println("Bu ev almak veya tutmak için Lütfen gerek bilgilerinizi giriniz:\nTc Kimlik No: ");
-                    String clientNo = selectCity.next();
+                    Scanner inputClient = new Scanner(System.in);
+                    String clientNo = inputClient.next();
+                    System.out.println(Integer.class.isInstance(Integer.parseInt(clientNo)));
                     if (Integer.class.isInstance(Integer.parseInt(clientNo))) {
                         System.out.println("Ad Soyadı: ");
-                        String clientNameSurname = selectCity.nextLine();
+                        String clientNameSurname = inputClient.next();
+                        System.out.println(clientNameSurname);
                         while(true) {
                             System.out.println("Telefon numarası: ");
-                            String clientTelefon = selectCity.next();
-                            if (Integer.class.isInstance(Integer.parseInt(clientTelefon))) {
+                            float clientTelefon = inputClient.nextFloat();
+//                            System.out.println(Integer.class.isInstance(Integer.parseInt(clientTelefon)));
+//                            if (Integer.class.isInstance(Integer.parseInt(clientTelefon))) {
                                 System.out.println("Mail Adressi: ");
-                                String clientMail = selectCity.nextLine();
+                                String clientMail = inputClient.nextLine();
                                 System.out.println("Ev/iş Adressi: ");
-                                String clientAdress = selectCity.nextLine();
+                                String clientAdress = inputClient.nextLine();
                                 System.out.println("Onu kaydetmek için kabul ediyor musunuz?Evet yada Hayır");
-                                String clientSure = selectCity.next();
-                                if ( !clientSure.equals("evet")|| !clientSure.equals("Evet")|| !clientSure.equals("hayır")|| !clientSure.equals("Hayır")){
-                                    System.out.println("Lütfen Evet yada Hayır giriniz!");
-                                }else{
+                                String clientSure = inputClient.next();
+                            System.out.println(clientSure);
+//                                if ( !clientSure.equals("evet")&& !clientSure.equals("Evet")&& !clientSure.equals("hayır")&& !clientSure.equals("Hayır")){
+//                                    System.out.println("Lütfen Evet yada Hayır giriniz!");
+//                                }else{
                                     if(clientSure.equals("evet")|| clientSure.equals("Evet")){
                                         Clientİnformation client = new Clientİnformation(Integer.parseInt(clientNo),  clientNameSurname,  clientMail,  clientAdress,
-                                               Integer.parseInt( clientTelefon));
+                                               clientTelefon);
 //                                        clientHome.add(new ClientHomeList(new EvBilgileri( home.homeNo, home.homeCity,home.homeDistrict, home.homeAdress, home.homeSquare,
 //                                                home.homePrice, home.homeRooms, home.homeFloor, home.homeOld, home.homeStatus)),
 //                                                new Clientİnformation(Integer.parseInt(clientNo),clientNameSurname,clientMail,clientAdress,Integer.parseInt( clientTelefon)));
-                                            clientHome.add(new ClientHomeList(Integer.parseInt(clientNo),  clientNameSurname,  clientMail, clientAdress, Integer.parseInt( clientTelefon),
+                                            clientHome.add(new ClientHomeList(Integer.parseInt(clientNo),  clientNameSurname,  clientMail, clientAdress,  clientTelefon,
                                                     home.getHomeNo(), home.homeCity, home.homeDistrict, home.homeAdress, home.homeSquare, home.homePrice, home.homeRooms,
                                                     home.homeFloor, home.homeOld, home.homeStatus) );
+                                        System.out.println("İşlemlerinizi tamamladı.");
 
-                                    }else{
+                                    }else if (clientSure.equals("hayır")|| clientSure.equals("Hayır")) {
+                                        System.out.println("İşlemlerinizi iptal edilmiştir!");
+                                    } else{
                                         System.out.println("İşlemlerinizi tamamlayamadı. ");
                                     }
 
-                                }
+
                                 break;
 
-                            }else{
-                                System.out.println("Lütfen doğru Telefon numarası giriniz!");
-                            }
+
 
                         }
                         break;
@@ -220,7 +226,7 @@ public class FinalProjesiEmlakci {
                 System.out.println("Girdiğinz sayı doğru değildir.Lütfen listedekilerden birni seçiniz!");
 
             }
-            }
+
         }catch (Exception e) {
             System.out.println("Girdiğinz sayı doğru değildir.Lütfen listedekilerden birni seçiniz!");
         }
